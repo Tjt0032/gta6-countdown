@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Before GTA VI · The Countdown</title>
+<meta name="description" content="An advent-style countdown to GTA VI: one jaw-dropping thing that happened since GTA V, every day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff2e93; --hot:#ff5fa2; --orange:#ff8a3d; --yellow:#ffd23f; --purple:#6a2c91; --deep:#1a0b2e; --teal:#19e3d0; --ink:#fff;
+  --display:'Bungee', Impact, 'Arial Black', system-ui, sans-serif;
+  --body:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{background:#1a0b2e}
+body{
+  font-family:var(--body); color:var(--ink); min-height:100vh;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 105%, rgba(25,227,208,.35), transparent 60%),
+    linear-gradient(180deg,#1a0b2e 0%,#3b1361 22%,#8a1f7a 45%,#ff2e93 66%,#ff8a3d 84%,#ffd23f 100%);
+  background-attachment:fixed;
+  overflow-x:hidden;
+}
+/* retro sun + grid horizon */
+.sky{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.sun{position:absolute;left:50%;bottom:16vh;width:min(70vw,520px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;
+  background:linear-gradient(180deg,#ffd23f 0%,#ff8a3d 45%,#ff2e93 100%);opacity:.55;
+  -webkit-mask:repeating-linear-gradient(180deg,#000 0 16px,transparent 16px 22px);mask:repeating-linear-gradient(180deg,#000 0 16px,transparent 16px 22px)}
+.grid{position:absolute;left:-50%;right:-50%;bottom:-10vh;height:36vh;transform:perspective(320px) rotateX(62deg);transform-origin:bottom;
+  background-image:linear-gradient(rgba(25,227,208,.55) 2px,transparent 2px),linear-gradient(90deg,rgba(25,227,208,.55) 2px,transparent 2px);
+  background-size:60px 60px;animation:roll 3s linear infinite;opacity:.6}
+@keyframes roll{to{background-position:0 60px}}
+.palm{position:absolute;bottom:0;font-size:min(28vw,220px);opacity:.25;filter:brightness(0)}
+.palm.l{left:-3vw}.palm.r{right:-3vw;transform:scaleX(-1)}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+header{text-align:center;margin-bottom:18px}
+.kicker{font-family:var(--display);letter-spacing:.2em;font-size:12px;color:var(--teal);text-shadow:0 0 8px var(--teal)}
+h1{font-family:var(--display);font-weight:400;margin:6px 0 4px;line-height:.95;font-size:clamp(38px,9vw,88px);
+  background:linear-gradient(180deg,#fff 0%,#ffd23f 40%,#ff2e93 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(3px 3px 0 #1a0b2e) drop-shadow(0 0 18px rgba(255,46,147,.6))}
+.sub{font-size:clamp(14px,3.6vw,18px);opacity:.92;max-width:640px;margin:8px auto 0}
+.sub em{font-style:normal;color:var(--yellow);font-weight:800}
+/* counters */
+.counters{display:grid;grid-template-columns:1fr;gap:14px;margin:20px 0 14px}
+@media(min-width:760px){.counters{grid-template-columns:1fr 1fr}}
+.ctr{position:relative;border-radius:20px;padding:16px 14px 14px;text-align:center;background:rgba(26,11,46,.72);backdrop-filter:blur(6px);
+  border:2px solid var(--c);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 0 26px -4px var(--c)}
+.ctr.since{--c:var(--teal)} .ctr.until{--c:var(--pink)}
+.ctr h2{font-family:var(--display);font-weight:400;font-size:14px;letter-spacing:.12em;margin:0 0 4px;color:var(--c);text-shadow:0 0 10px var(--c)}
+.big{font-family:var(--display);font-size:clamp(44px,12vw,76px);line-height:1;margin:6px 0 2px;color:#fff;text-shadow:0 0 18px var(--c),3px 3px 0 #000}
+.biglbl{font-size:12px;text-transform:uppercase;letter-spacing:.16em;opacity:.8;margin-bottom:10px}
+.units{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.u{min-width:58px;padding:8px 6px;border-radius:12px;background:rgba(255,255,255,.07)}
+.u b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(20px,5.4vw,28px);font-variant-numeric:tabular-nums}
+.u span{font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.75}
+.ctr small{display:block;margin-top:8px;font-size:11px;opacity:.7}
+/* stats */
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 18px}
+.pill{background:rgba(26,11,46,.65);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600}
+.pill b{color:var(--yellow)}
+.banner{display:none;margin:0 auto 14px;max-width:560px;text-align:center;font-size:12px;padding:6px 10px;border-radius:10px;background:#000a;border:1px dashed var(--yellow);color:var(--yellow)}
+.banner.on{display:block}
+/* doors */
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(min-width:520px){.doors{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.doors{grid-template-columns:repeat(6,1fr);gap:14px}}
+.door{all:unset;box-sizing:border-box;cursor:pointer;position:relative;aspect-ratio:3/4;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.03)),linear-gradient(180deg,#3b1361,#1a0b2e);
+  border:2px solid rgba(255,255,255,.25);box-shadow:0 6px 0 #0006;transition:transform .15s ease, box-shadow .15s ease;text-align:center;padding:6px;overflow:hidden}
+.door:hover{transform:translateY(-3px)}
+.door:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.door .n{font-family:var(--display);font-size:clamp(28px,8vw,44px);line-height:1;text-shadow:2px 2px 0 #000}
+.door .dt{font-size:11px;font-weight:600;letter-spacing:.06em;opacity:.85;margin-top:4px;text-transform:uppercase}
+.door .st{position:absolute;top:6px;right:8px;font-size:14px}
+.door.locked{filter:saturate(.4) brightness(.8)}
+.door.locked .n{opacity:.6}
+.door.open{background:linear-gradient(160deg,rgba(25,227,208,.35),rgba(255,46,147,.25)),#1a0b2e;border-color:var(--teal)}
+.door.opened-mark .icon{display:block}
+.door .icon{display:none;font-size:22px;margin-top:4px}
+.door.today{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,210,63,.35),0 0 24px var(--yellow),0 6px 0 #0006;animation:pulse 1.6s ease-in-out infinite}
+.door.today::after{content:"TODAY";position:absolute;bottom:6px;font-family:var(--display);font-size:10px;color:#1a0b2e;background:var(--yellow);padding:2px 6px;border-radius:6px}
+.door.finale{background:linear-gradient(160deg,#ff2e93,#ff8a3d 55%,#ffd23f);border-color:#fff}
+.door.finale .n{font-size:clamp(20px,5vw,30px)}
+@keyframes pulse{50%{transform:scale(1.04)}}
+.shake{animation:shake .45s ease}
+@keyframes shake{20%{transform:translateX(-6px) rotate(-2deg)}40%{transform:translateX(6px) rotate(2deg)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* toast */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120px);background:#1a0b2e;border:2px solid var(--pink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;z-index:60;transition:transform .3s ease,opacity .3s ease;opacity:0;visibility:hidden;max-width:90vw;text-align:center;box-shadow:0 0 20px var(--pink)}
+.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,3,20,.78);backdrop-filter:blur(3px)}
+.modal.on{display:flex}
+.card-wrap{perspective:1200px;width:min(560px,100%);max-height:92vh}
+.card{position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1);transform:rotateY(180deg)}
+.card.flipped{transform:rotateY(0)}
+.face{backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;padding:22px 20px 18px;
+  background:linear-gradient(170deg,#2a0f4a 0%,#1a0b2e 70%);border:2px solid var(--teal);box-shadow:0 0 40px -6px var(--pink),0 0 0 1px #fff2 inset;max-height:92vh;overflow:auto}
+.face.back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#ff2e93,#ff8a3d 60%,#ffd23f);border-color:#fff}
+.face.back span{font-family:var(--display);font-size:64px;color:#1a0b2e}
+.cat{display:inline-block;font-family:var(--display);font-size:11px;letter-spacing:.12em;color:#1a0b2e;background:var(--teal);padding:3px 8px;border-radius:6px}
+.daytag{float:right;font-size:12px;opacity:.75;margin-top:2px}
+.card h3{font-family:var(--display);font-weight:400;font-size:clamp(22px,6vw,30px);line-height:1.1;margin:12px 0 10px;color:var(--yellow);text-shadow:2px 2px 0 #000}
+.card .emoji{font-size:44px;line-height:1}
+.card p{line-height:1.55;font-size:16px;margin:0 0 12px}
+.tvn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.tvn div{border-radius:12px;padding:10px;font-size:13px;font-weight:600;line-height:1.35}
+.tvn .t{background:rgba(25,227,208,.14);border:1px solid rgba(25,227,208,.6)}
+.tvn .w{background:rgba(255,46,147,.16);border:1px solid rgba(255,46,147,.7)}
+.tvn i{display:block;font-style:normal;font-family:var(--display);font-size:10px;letter-spacing:.14em;opacity:.8;margin-bottom:3px}
+.punch{font-family:var(--display);font-size:clamp(15px,4vw,18px);line-height:1.3;padding:12px 14px;border-radius:12px;background:linear-gradient(90deg,var(--pink),var(--orange));color:#fff;text-shadow:1px 1px 0 #0007;margin:12px 0}
+.srcs{font-size:11px;opacity:.7;word-break:break-all}
+.srcs a{color:var(--teal)}
+.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+.btn{all:unset;cursor:pointer;font-family:var(--display);font-size:13px;letter-spacing:.06em;padding:10px 16px;border-radius:12px;background:var(--teal);color:#1a0b2e;box-shadow:0 4px 0 #0008}
+.btn.alt{background:#ffffff22;color:#fff}
+.btn:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.quiz .q{font-weight:800;font-size:17px;margin:10px 0}
+.opts{display:grid;gap:8px}
+.opt{all:unset;cursor:pointer;padding:12px 14px;border-radius:12px;background:#ffffff14;border:2px solid #ffffff30;font-weight:600}
+.opt:hover{background:#ffffff22}
+.opt:focus-visible{outline:3px solid var(--yellow)}
+.opt.right{background:rgba(25,227,208,.3);border-color:var(--teal)}
+.opt.wrong{background:rgba(255,46,147,.3);border-color:var(--pink)}
+.verdict{font-family:var(--display);margin:10px 0 0;min-height:1.2em}
+/* finale */
+.finale-hero{text-align:center}
+.finale-hero .big{--c:var(--pink)}
+.recap{list-style:none;padding:0;margin:12px 0;display:grid;gap:6px;font-size:14px}
+.recap li{background:#ffffff10;border-radius:10px;padding:8px 10px}
+.recap li b{color:var(--teal);font-family:var(--display);font-weight:400;margin-right:6px}
+footer{text-align:center;margin-top:28px;font-size:12px;opacity:.85;line-height:1.6}
+footer a{color:#fff}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><div class="sun"></div><div class="grid"></div><div class="palm l">🌴</div><div class="palm r">🌴</div></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<main>
+  <header>
+    <div class="kicker">THE OFFICIAL UNOFFICIAL</div>
+    <h1>BEFORE<br>GTA VI</h1>
+    <p class="sub">The world changed a lot while we waited. Open one door a day for <em>one real thing that happened between GTA V and GTA VI</em>.</p>
+  </header>
+  <div class="banner" id="banner" role="status"></div>
+  <section class="counters" aria-label="Countdown timers">
+    <div class="ctr since">
+      <h2>SINCE GTA V DROPPED</h2>
+      <div class="big" id="sinceDays">0</div>
+      <div class="biglbl">total days of waiting</div>
+      <div class="units" aria-live="off">
+        <div class="u"><b id="sY">0</b><span>years</span></div>
+        <div class="u"><b id="sD">0</b><span>days</span></div>
+        <div class="u"><b id="sH">00</b><span>hrs</span></div>
+        <div class="u"><b id="sM">00</b><span>min</span></div>
+        <div class="u"><b id="sS">00</b><span>sec</span></div>
+      </div>
+      <small>Counting up from Sept 17, 2013</small>
+    </div>
+    <div class="ctr until">
+      <h2 id="untilTitle">UNTIL GTA VI</h2>
+      <div class="big" id="untilDays">0</div>
+      <div class="biglbl" id="untilLbl">days to go</div>
+      <div class="units" id="untilUnits">
+        <div class="u"><b id="uD">0</b><span>days</span></div>
+        <div class="u"><b id="uH">00</b><span>hrs</span></div>
+        <div class="u"><b id="uM">00</b><span>min</span></div>
+        <div class="u"><b id="uS">00</b><span>sec</span></div>
+      </div>
+      <small>Launches Thu, Nov 19, 2026 · counting to midnight your local time</small>
+    </div>
+  </section>
+  <div class="stats">
+    <div class="pill">🚪 Opened <b id="openedCount">0</b>/<span id="totalDoors">24</span></div>
+    <div class="pill">🔥 Streak <b id="streak">0</b> day<span id="streakS">s</span></div>
+    <div class="pill" id="todayPill">📅 Today: <b id="todayLbl">-</b></div>
+  </div>
+  <section aria-label="Advent doors"><div class="doors" id="doors" role="list"></div></section>
+  <footer>
+    <p>Every fact was checked against a source (tap a door to see its links). The "still no GTA 6" jokes are on us.<br>
+    Fan-made for fun. Not affiliated with Rockstar Games or Take-Two Interactive.</p>
+  </footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="card-wrap"><div class="card" id="card">
+    <div class="face front" id="front"></div>
+    <div class="face back" aria-hidden="true"><span>?!</span></div>
+  </div></div>
+</div>
+<script>
+const DOORS = [
+ {d:"2026-10-27", cat:"TV", icon:"📺", h:"A whole prequel show started AND finished",
+  b:"Breaking Bad aired its series finale on Sept 29, 2013, just 12 days after GTA V came out. Then the prequel, Better Call Saul, premiered in Feb 2015, ran six seasons and 63 episodes, and wrapped up for good in August 2022.",
+  tn:"2013: Walter White's final episode", nw:"Now: 2 complete shows in the books",
+  p:"Saul Goodman got a whole origin story before Rockstar gave us a release date we believed."},
+ {d:"2026-10-28", cat:"Politics", icon:"🇬🇧", h:"Britain went through SIX prime ministers",
+  b:"When GTA V launched, David Cameron ran the UK. Since then: Theresa May, Boris Johnson, Liz Truss, Rishi Sunak, Keir Starmer, and, since July 20, 2026, Andy Burnham. Truss lasted only 50 days, and a tabloid famously livestreamed a head of lettuce to see if it would outlast her (it did).",
+  tn:"2013: PM #1 (Cameron) · Queen Elizabeth II", nw:"Now: PM #7 (Burnham) · King Charles III",
+  p:"A lettuce outlasted a prime minister before GTA 6 came out.",
+  q:{ask:"How many different UK prime ministers have there been since GTA V came out (not counting Cameron)?",opts:["3","4","6"],a:2}},
+ {d:"2026-10-29", cat:"Space", icon:"🚀", h:"Rockets learned to land themselves. 656 times.",
+  b:"In 2013, no orbital-class rocket booster had ever landed upright after a launch. SpaceX did it for the first time in December 2015. As of Oct 23, 2026, Falcon 9 boosters have landed 656 times, and a single booster has flown as many as 37 flights.",
+  tn:"2013: 0 landed orbital boosters", nw:"Now: 656 Falcon 9 landings",
+  p:"Rockets are reusable now. Rockstar trailers, apparently, are too.",
+  q:{ask:"How many times have Falcon 9 boosters landed (as of Oct 2026)?",opts:["About 60","About 250","Over 650"],a:2}},
+ {d:"2026-10-30", cat:"Prices", icon:"✉️", h:"A stamp went up 13 times. Minimum wage: zero times.",
+  b:"A US Forever stamp cost 46¢ in 2013. Since then the price changed 13 times (once it actually went down, in 2016), and it hit 82¢ in July 2026. The federal minimum wage? Still $7.25 an hour, the same as July 2009.",
+  tn:"2013: stamp 46¢ · min wage $7.25", nw:"Now: stamp 82¢ · min wage $7.25",
+  p:"The only thing in America that changed less than the minimum wage is the GTA 6 release date (ok, it changed twice)."},
+ {d:"2026-10-31", cat:"Pop culture", icon:"🎃", h:"Stranger Things was born, grew up, and said goodbye",
+  b:"Stranger Things premiered on Netflix on July 15, 2016, almost three years after GTA V. It ran five full seasons. The finale came out in December 2025, and the kid actors are adults now.",
+  tn:"2013: Stranger Things didn't exist", nw:"Now: 5 seasons, completely finished",
+  p:"Happy Halloween! The Upside Down was opened AND closed before Vice City reopened."},
+ {d:"2026-11-01", cat:"World", icon:"⛪", h:"We got an American pope",
+  b:"Pope Francis had been pope for only six months when GTA V came out. He died on April 21, 2025, and on May 8, 2025 the conclave elected Robert Prevost, Pope Leo XIV. He's the first pope ever from the United States.",
+  tn:"2013: Pope Francis, brand new", nw:"Now: Pope Leo XIV, first US pope",
+  p:"The Vatican held a conclave with white smoke and everything, and it still took less time than Leonida."},
+ {d:"2026-11-02", cat:"Sports", icon:"⚾", h:"The Chicago Cubs won the World Series",
+  b:"In 2016 the Cubs beat Cleveland in seven games for their first championship since 1908. That ended the longest title drought in North American pro sports, which had lasted 108 years.",
+  tn:"2013: 105 years without a title", nw:"Now: Champions (2016)",
+  p:"A curse more than a century old got broken before GTA 6. Rockstar, your move.",
+  q:{ask:"Before 2016, when did the Cubs last win a World Series?",opts:["1945","1908","1969"],a:1}},
+ {d:"2026-11-03", cat:"Space", icon:"🪐", h:"We saw Pluto's face for the first time",
+  b:"In 2013, our best maps of Pluto were built from just a few pixels of Hubble images. On July 14, 2015, NASA's New Horizons flew 7,800 miles above its surface and sent back the first close-up photos ever. It turns out to have a giant bright \"heart\" on its surface.",
+  tn:"2013: a blurry dot", nw:"Now: HD Pluto with a heart on it",
+  p:"We sent a spacecraft billions of miles to Pluto and got photos back before we got GTA 6 gameplay on our couch."},
+ {d:"2026-11-04", cat:"Tech", icon:"🤖", h:"AI chatbots went from sci-fi to everyday",
+  b:"ChatGPT launched on Nov 30, 2022. It got 1 million users in five days and 100 million in two months. By February 2026 it had 900 million weekly users.",
+  tn:"2013: talking to computers meant yelling at Siri", nw:"Now: 900M weekly ChatGPT users",
+  p:"Humanity invented a machine that can write a GTA 6 script. Still couldn't make it release faster.",
+  q:{ask:"How many weekly users did ChatGPT have by February 2026?",opts:["90 million","300 million","900 million"],a:2}},
+ {d:"2026-11-05", cat:"Gaming", icon:"🎮", h:"GTA V came out on three console generations",
+  b:"GTA V launched on PS3 and Xbox 360 in Sept 2013. It came back on PS4 and Xbox One in Nov 2014, on PC in April 2015, and AGAIN on PS5 and Xbox Series X|S in March 2022. Some people have bought the same game three or four times.",
+  tn:"2013: PS3 / Xbox 360", nw:"Now: re-released through the PS5 era",
+  p:"Rockstar sold us the same game across three console generations, and the sequel still isn't here."},
+ {d:"2026-11-06", cat:"Sports", icon:"⚽", h:"A 5,000-to-1 long shot won England's top soccer league",
+  b:"Bookmakers gave Leicester City odds of 5,000–1 to win the 2015–16 Premier League. Leicester won it, and the result led to the largest payout in British sporting history, about £25 million in total winnings.",
+  tn:"2013: Leicester were in the second tier", nw:"Now: Premier League champions (2016)",
+  p:"A 5,000-to-1 miracle actually happened. GTA 6 coming out on time felt like longer odds."},
+ {d:"2026-11-07", cat:"Science", icon:"🕳️", h:"We photographed a black hole. Then another one.",
+  b:"On April 10, 2019, the Event Horizon Telescope released the first image ever of a black hole, at the center of galaxy M87. In May 2022 they released a picture of the black hole at the center of our own Milky Way.",
+  tn:"2013: no one had ever seen one", nw:"Now: 2 black holes photographed",
+  p:"Humans photographed something that light can't escape from before GTA 6 escaped from Rockstar."},
+ {d:"2026-11-08", cat:"Internet", icon:"🐦", h:"A whole social network was born, went viral, and died",
+  b:"Vine launched in January 2013 with 6-second looping videos and became one of the most-used video apps. Twitter shut it down in January 2017. Twitter itself was then rebranded \"X\" in July 2023.",
+  tn:"2013: Vine was the hot new app", nw:"Now: Vine is gone; Twitter is X",
+  p:"Vine lived and died, and Twitter changed its name, and still no GTA 6. That's a lot of tweets."},
+ {d:"2026-11-09", cat:"Sports", icon:"🏈", h:"Tom Brady won four more Super Bowls and retired twice",
+  b:"When GTA V launched, Tom Brady had 3 Super Bowl rings. He finished with 7, more than any NFL franchise. He retired on Feb 1, 2022, came back, and then retired 'for good' on Feb 1, 2023, exactly one year later.",
+  tn:"2013: 3 rings", nw:"Now: 7 rings, 2 retirements",
+  p:"A man won four championships and retired twice in the time it took to make one video game.",
+  q:{ask:"How many Super Bowls did Tom Brady win in total?",opts:["5","6","7"],a:2}},
+ {d:"2026-11-10", cat:"World events", icon:"🦠", h:"A global pandemic made GTA V sell MORE",
+  b:"COVID-19 shut down most of the world in 2020. Stuck indoors, people turned to games, and GTA V sold more copies in 2020 than in any year since its 2013 launch, including the year it came out.",
+  tn:"2013: launch year", nw:"Now: 2020 was its best-selling year",
+  p:"We lived through a literal pandemic, and the 7-year-old game was the hottest thing on the shelf."},
+ {d:"2026-11-11", cat:"World", icon:"🌍", h:"The world added about a billion people",
+  b:"The UN said world population passed 7 billion in October 2011. On November 15, 2022, the UN marked the birth of the 8 billionth person on Earth.",
+  tn:"2013: just over 7 billion humans", nw:"Now: over 8 billion",
+  p:"About a billion new humans arrived. Statistically, some of them are already in the GTA 6 pre-order queue."},
+ {d:"2026-11-12", cat:"Gaming", icon:"🕹️", h:"Nintendo released a console AND its sequel",
+  b:"The Nintendo Switch came out on March 3, 2017 and shipped over 155 million units, making it the second-best-selling console ever. Its successor, the Switch 2, launched on June 5, 2025 and sold over 23 million by June 2026.",
+  tn:"2013: the Wii U era", nw:"Now: Switch 1 (155M+) → Switch 2",
+  p:"An entire console lifecycle went by. Good news, though: GTA 6 preloads start TODAY."},
+ {d:"2026-11-13", cat:"Movies", icon:"🦸", h:"Marvel finished a 22-movie saga",
+  b:"Avengers: Endgame (2019) was the 22nd Marvel Cinematic Universe film and the finale of the Infinity Saga. It grossed $2.799 billion and passed Avatar as the highest-grossing film of all time. Avatar took the record back with a 2021 re-release.",
+  tn:"2013: the saga was still mid-story", nw:"Now: Endgame, $2.799B",
+  p:"Thanos snapped away half the universe and the Avengers snapped it back, and still no GTA 6."},
+ {d:"2026-11-14", cat:"Space", icon:"🌕", h:"Humans went back around the Moon",
+  b:"In April 2026, NASA's Artemis II flew four astronauts around the Moon. It was the first crewed flight beyond low Earth orbit since Apollo 17 in 1972. They reached 252,756 miles from Earth, breaking Apollo 13's record for the farthest humans have ever traveled.",
+  tn:"2013: no human past low orbit since 1972", nw:"Now: farthest humans ever (2026)",
+  p:"We flew people farther than humans have ever gone, and they came home before GTA 6 did.",
+  q:{ask:"Artemis II broke the record for farthest humans from Earth. How far did they get?",opts:["~100,000 miles","~252,756 miles","~1 million miles"],a:1}},
+ {d:"2026-11-15", cat:"Music", icon:"🎤", h:"Taylor Swift did a $2 billion tour",
+  b:"The Eras Tour played 149 shows in 51 cities across five continents, ending in December 2024. It became the highest-grossing tour of all time and the first ever to pass $1 billion, then $2 billion.",
+  tn:"2013: no tour had ever made $1B", nw:"Now: Eras Tour passed $2B",
+  p:"Taylor Swift toured a whole career's worth of eras. Rockstar stayed in one: the waiting era."},
+ {d:"2026-11-16", cat:"Gaming", icon:"💸", h:"Microsoft bought Minecraft, then Call of Duty",
+  b:"In 2014 Microsoft bought Mojang, the studio behind Minecraft, for $2.5 billion. In October 2023 it completed its purchase of Activision Blizzard (Call of Duty, Warcraft, Candy Crush), a deal announced at $68.7 billion that ended up costing $75.4 billion in total.",
+  tn:"2013: Minecraft was indie", nw:"Now: Microsoft owns both, ~$78B later",
+  p:"Microsoft spent tens of billions on games. None of that money could buy an earlier GTA 6.",
+  q:{ask:"What did Microsoft's Activision Blizzard deal end up costing in total?",opts:["$7.5 billion","$25 billion","$75.4 billion"],a:2}},
+ {d:"2026-11-17", cat:"Science", icon:"🌊", h:"We 'heard' two black holes collide",
+  b:"Einstein predicted gravitational waves, ripples in spacetime itself. On Sept 14, 2015, the LIGO detectors caught one for the first time, from two black holes about 30 times the mass of the Sun merging about 1.3 billion light-years away. The detection won the 2017 Nobel Prize in Physics.",
+  tn:"2013: only a prediction", nw:"Now: detected, confirmed, Nobel'd",
+  p:"Scientists caught a signal that traveled 1.3 billion years to reach us. GTA 6 still felt like it was further away."},
+ {d:"2026-11-18", cat:"Tech", icon:"📱", h:"Thirteen generations of iPhone. Now it folds.",
+  b:"The iPhone 5s came out on Sept 20, 2013, three days after GTA V. Its big new trick was Touch ID, a fingerprint reader. The 5s was the 7th iPhone generation. The 20th generation launched in September 2026, and it includes Apple's first foldable, the iPhone Duo.",
+  tn:"2013: iPhone 5s (gen 7), fingerprint unlock!", nw:"Now: iPhone 18 Pro + foldable Duo (gen 20)",
+  p:"Your phone got 13 upgrades. Tomorrow, your GTA finally gets one."},
+];
+const SRC = {
+"2026-10-27":["https://en.wikipedia.org/wiki/Breaking_Bad","https://en.wikipedia.org/wiki/Better_Call_Saul"],
+"2026-10-28":["https://www.gov.uk/government/ministers/prime-minister","https://en.wikipedia.org/wiki/Liz_Truss","https://en.wikipedia.org/wiki/Death_and_state_funeral_of_Elizabeth_II"],
+"2026-10-29":["https://en.wikipedia.org/wiki/Falcon_9"],
+"2026-10-30":["https://about.usps.com/who/profile/history/domestic-letter-rates-since-1863.htm","https://en.wikipedia.org/wiki/Minimum_wage_in_the_United_States"],
+"2026-10-31":["https://en.wikipedia.org/wiki/Stranger_Things"],
+"2026-11-01":["https://en.wikipedia.org/wiki/2025_papal_conclave","https://en.wikipedia.org/wiki/Pope_Leo_XIV"],
+"2026-11-02":["https://en.wikipedia.org/wiki/2016_World_Series"],
+"2026-11-03":["https://en.wikipedia.org/wiki/New_Horizons","https://en.wikipedia.org/wiki/Pluto"],
+"2026-11-04":["https://en.wikipedia.org/wiki/ChatGPT"],
+"2026-11-05":["https://en.wikipedia.org/wiki/Grand_Theft_Auto_V"],
+"2026-11-06":["https://en.wikipedia.org/wiki/Leicester_City_F.C."],
+"2026-11-07":["https://en.wikipedia.org/wiki/Event_Horizon_Telescope"],
+"2026-11-08":["https://en.wikipedia.org/wiki/Vine_(service)","https://en.wikipedia.org/wiki/Twitter"],
+"2026-11-09":["https://en.wikipedia.org/wiki/Tom_Brady"],
+"2026-11-10":["https://en.wikipedia.org/wiki/Grand_Theft_Auto_V","https://en.wikipedia.org/wiki/COVID-19_pandemic"],
+"2026-11-11":["https://en.wikipedia.org/wiki/World_population"],
+"2026-11-12":["https://en.wikipedia.org/wiki/Nintendo_Switch","https://en.wikipedia.org/wiki/Nintendo_Switch_2","https://taketwointeractivesoftwareinc.gcs-web.com/news-releases/news-release-details/rockstar-games-announces-pre-orders-grand-theft-auto-vi/"],
+"2026-11-13":["https://en.wikipedia.org/wiki/Avengers:_Endgame"],
+"2026-11-14":["https://en.wikipedia.org/wiki/Artemis_II"],
+"2026-11-15":["https://en.wikipedia.org/wiki/The_Eras_Tour"],
+"2026-11-16":["https://en.wikipedia.org/wiki/Mojang_Studios","https://en.wikipedia.org/wiki/Acquisition_of_Activision_Blizzard_by_Microsoft"],
+"2026-11-17":["https://en.wikipedia.org/wiki/LIGO"],
+"2026-11-18":["https://en.wikipedia.org/wiki/IPhone_5S","https://en.wikipedia.org/wiki/IPhone_18_Pro","https://en.wikipedia.org/wiki/IPhone_Fold"],
+"2026-11-19":["https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026","https://en.wikipedia.org/wiki/Grand_Theft_Auto_V"]
+};
+const START = new Date(2013, 8, 17, 0, 0, 0);       // GTA V release, viewer local midnight
+const TARGET = new Date(2026, 10, 19, 0, 0, 0);     // GTA VI release, viewer local midnight
+const FINALE = "2026-11-19";
+const params = new URLSearchParams(location.search);
+const PREVIEW = params.get("preview") === "1";
+const SIM = /^\d{4}-\d{2}-\d{2}$/.test(params.get("date") || "") ? params.get("date") : null;
+const STORE = "gta6cd.v1" + (PREVIEW || SIM ? ".test" : "");
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const parseYmd = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmt = (s, o) => parseYmd(s).toLocaleDateString(undefined, o || { weekday: "short", month: "short", day: "numeric" });
+const realStart = Date.now();
+function now() {
+  if (!SIM) return new Date();
+  const base = parseYmd(SIM), t = new Date();
+  base.setHours(t.getHours(), t.getMinutes(), t.getSeconds());
+  return new Date(base.getTime() + (Date.now() - realStart) % 1000);
+}
+const todayStr = () => ymd(now());
+const ALL = DOORS.concat([{ d: FINALE, finale: true, h: "GTA VI IS OUT", icon: "🌴" }]);
+function load() { try { return JSON.parse(localStorage.getItem(STORE)) || { opened: {}, quiz: {} }; } catch (e) { return { opened: {}, quiz: {} }; } }
+function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+let state = load();
+const isUnlocked = d => PREVIEW || d <= todayStr();
+
+/* ---------- counters ---------- */
+function tick() {
+  const n = now();
+  // since: years + days since last anniversary
+  let y = n.getFullYear() - START.getFullYear();
+  let anniv = new Date(START); anniv.setFullYear(START.getFullYear() + y);
+  if (anniv > n) { y--; anniv = new Date(START); anniv.setFullYear(START.getFullYear() + y); }
+  const remMs = n - anniv;
+  const totalDays = Math.floor((n - START) / 864e5);
+  set("sinceDays", totalDays.toLocaleString());
+  set("sY", y); set("sD", Math.floor(remMs / 864e5));
+  set("sH", pad(Math.floor(remMs / 36e5) % 24)); set("sM", pad(Math.floor(remMs / 6e4) % 60)); set("sS", pad(Math.floor(remMs / 1e3) % 60));
+  const left = TARGET - n;
+  if (left <= 0) {
+    set("untilTitle", "GTA VI IS OUT"); set("untilDays", "🎉"); set("untilLbl", "it actually happened");
+    document.getElementById("untilUnits").style.display = "none";
+  } else {
+    const days = Math.floor(left / 864e5);
+    set("untilDays", days); set("untilLbl", days === 1 ? "day to go" : "days to go");
+    set("uD", days); set("uH", pad(Math.floor(left / 36e5) % 24)); set("uM", pad(Math.floor(left / 6e4) % 60)); set("uS", pad(Math.floor(left / 1e3) % 60));
+  }
+  const t = todayStr();
+  if (t !== lastDay) { lastDay = t; render(); }
+}
+function set(id, v) { const e = document.getElementById(id); if (e && e.textContent !== String(v)) e.textContent = v; }
+let lastDay = null;
+
+/* ---------- doors ---------- */
+function streak() {
+  // consecutive door-days (ending today, or yesterday if today's isn't opened yet) that are opened
+  const t = todayStr(); let i = ALL.findIndex(x => x.d === t);
+  if (i === -1) i = ALL.filter(x => x.d <= t).length - 1;
+  if (i >= 0 && !state.opened[ALL[i].d]) i--;
+  let s = 0; while (i >= 0 && state.opened[ALL[i].d]) { s++; i--; }
+  return s;
+}
+function render() {
+  const wrap = document.getElementById("doors"); wrap.innerHTML = "";
+  const t = todayStr();
+  ALL.forEach((x, i) => {
+    const b = document.createElement("button");
+    const un = isUnlocked(x.d), opened = !!state.opened[x.d];
+    b.className = "door" + (un ? " open" : " locked") + (x.d === t ? " today" : "") + (x.finale ? " finale" : "") + (opened ? " opened-mark" : "");
+    b.setAttribute("role", "listitem");
+    b.setAttribute("aria-label", (x.finale ? "Finale door, " : "Door " + (i + 1) + ", ") + fmt(x.d, { weekday: "long", month: "long", day: "numeric" }) + (un ? (opened ? ", opened: " + x.h : ", ready to open") : ", locked"));
+    b.innerHTML = `<span class="st" aria-hidden="true">${un ? (opened ? "✅" : "✨") : "🔒"}</span>
+      <span class="n">${x.finale ? "GTA<br>VI" : i + 1}</span><span class="dt">${fmt(x.d, { month: "short", day: "numeric" })}</span>
+      <span class="icon" aria-hidden="true">${x.icon}</span>`;
+    b.addEventListener("click", () => openDoor(i, b));
+    wrap.appendChild(b);
+  });
+  set("openedCount", Object.keys(state.opened).filter(k => ALL.some(x => x.d === k)).length);
+  set("totalDoors", ALL.length);
+  const s = streak(); set("streak", s); set("streakS", s === 1 ? "" : "s");
+  set("todayLbl", t < ALL[0].d ? fmt(t) + " · Door 1 opens " + fmt(ALL[0].d) : fmt(t));
+  if (t >= FINALE && !celebrated) { celebrated = true; setTimeout(() => confetti(220), 400); }
+}
+let celebrated = false;
+function toast(msg) {
+  const e = document.getElementById("toast"); e.textContent = msg; e.classList.add("on");
+  clearTimeout(toast._t); toast._t = setTimeout(() => e.classList.remove("on"), 2600);
+}
+const LOCK_JOKES = ["Patience. You've waited 13 years.", "Rockstar would be proud of this delay.", "No early access, sorry.", "This door is pre-load only."];
+function openDoor(i, btn) {
+  const x = ALL[i];
+  if (!isUnlocked(x.d)) {
+    btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
+    toast(`🔒 Come back on ${fmt(x.d, { weekday: "long", month: "long", day: "numeric" })}. ${LOCK_JOKES[i % LOCK_JOKES.length]}`);
+    return;
+  }
+  lastBtn = btn;
+  if (x.finale) return showFinale();
+  if (x.q && state.quiz[x.d] === undefined) return showQuiz(i);
+  reveal(i);
+}
+let lastBtn = null;
+function srcHtml(d) {
+  const s = SRC[d] || []; if (!s.length) return "";
+  return `<div class="srcs">Sources: ${s.map(u => `<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\/(www\.)?/, "").slice(0, 60)}</a>`).join(" · ")}</div>`;
+}
+function openModal(html, flip) {
+  const m = document.getElementById("modal"), c = document.getElementById("card"), f = document.getElementById("front");
+  f.innerHTML = html; m.classList.add("on");
+  c.classList.remove("flipped");
+  if (flip) { void c.offsetWidth; requestAnimationFrame(() => c.classList.add("flipped")); } else c.classList.add("flipped");
+  setTimeout(() => { const el = f.querySelector("[data-focus]") || f.querySelector("button"); el && el.focus({ preventScroll: true }); f.scrollTop = 0; }, flip ? 450 : 30);
+}
+function closeModal() {
+  document.getElementById("modal").classList.remove("on");
+  render();
+  if (lastBtn) { const idx = [...document.querySelectorAll(".door")].findIndex((_, k) => ALL[k].d === lastDate); const b = document.querySelectorAll(".door")[idx]; b && b.focus(); }
+}
+let lastDate = null;
+function header(i, x) {
+  return `<span class="cat">${x.cat.toUpperCase()}</span><span class="daytag">Door ${i + 1} · ${fmt(x.d)}</span>`;
+}
+function showQuiz(i) {
+  const x = ALL[i]; lastDate = x.d;
+  openModal(`<div class="quiz">${header(i, x)}
+    <h3 id="mTitle">Quick guess first 🤔</h3>
+    <p class="q">${x.q.ask}</p>
+    <div class="opts">${x.q.opts.map((o, k) => `<button class="opt" data-k="${k}" ${k === 0 ? "data-focus" : ""}>${o}</button>`).join("")}</div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    <div class="actions"><button class="btn alt" id="skip">Skip, just show me</button></div></div>`, true);
+  document.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => {
+    const k = +b.dataset.k, ok = k === x.q.a;
+    state.quiz[x.d] = ok; save();
+    document.querySelectorAll(".opt").forEach((o, j) => { o.disabled = true; if (j === x.q.a) o.classList.add("right"); else if (j === k) o.classList.add("wrong"); });
+    set("verdict", ok ? "✅ Nailed it." : "❌ Nope! Here's the real answer…");
+    setTimeout(() => reveal(i), 1300);
+  }));
+  document.getElementById("skip").addEventListener("click", () => { state.quiz[x.d] = null; save(); reveal(i); });
+}
+function reveal(i) {
+  const x = ALL[i]; lastDate = x.d;
+  const first = !state.opened[x.d];
+  if (first) { state.opened[x.d] = todayStr(); save(); }
+  openModal(`${header(i, x)}
+    <div class="emoji" aria-hidden="true" style="margin-top:12px">${x.icon}</div>
+    <h3 id="mTitle">${x.h}</h3>
+    <p>${x.b}</p>
+    <div class="tvn"><div class="t"><i>THEN</i>${x.tn.replace(/^2013:\s*/, "")}</div><div class="w"><i>NOW</i>${x.nw.replace(/^Now:\s*/, "")}</div></div>
+    <div class="punch">${x.p}</div>
+    ${srcHtml(x.d)}
+    <div class="actions"><button class="btn alt" id="share">Copy fact</button><button class="btn" id="close" data-focus>Close</button></div>`, true);
+  document.getElementById("close").addEventListener("click", closeModal);
+  document.getElementById("share").addEventListener("click", () => {
+    const txt = `Door ${i + 1}, Before GTA VI: ${x.h}. ${x.p}`;
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast("📋 Copied. Go drop it in the group chat."), () => toast(txt));
+  });
+  if (first) confetti(60);
+}
+function showFinale() {
+  lastDate = FINALE;
+  const first = !state.opened[FINALE]; if (first) { state.opened[FINALE] = todayStr(); save(); }
+  const days = Math.round((TARGET - START) / 864e5);
+  openModal(`<div class="finale-hero">
+    <span class="cat">FINALE</span>
+    <div class="emoji" aria-hidden="true" style="margin-top:12px">🌴🚗💨</div>
+    <h3 id="mTitle">IT'S HERE. GTA VI IS OUT.</h3>
+    <div class="big" style="--c:var(--pink)">${days.toLocaleString()}</div>
+    <div class="biglbl">days from GTA V (Sept 17, 2013) to GTA VI (Nov 19, 2026)</div>
+    <p>Kids born the day GTA V came out are 13 now. GTA V shipped over 230 million copies while we waited. Here's everything that happened <em>before GTA 6</em>:</p></div>
+    <ol class="recap">${DOORS.map((d, k) => `<li><b>${k + 1}</b>${d.h}</li>`).join("")}</ol>
+    <div class="punch">After 13 years, two delays, six UK prime ministers and one lettuce, we finally got GTA 6. Go outside? No. Go to Leonida.</div>
+    ${srcHtml(FINALE)}
+    <div class="actions"><button class="btn alt" id="again">More confetti</button><button class="btn" id="close" data-focus>Close</button></div>`, true);
+  document.getElementById("close").addEventListener("click", closeModal);
+  document.getElementById("again").addEventListener("click", () => confetti(250));
+  confetti(300);
+}
+document.getElementById("modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
+document.addEventListener("keydown", e => {
+  const m = document.getElementById("modal");
+  if (!m.classList.contains("on")) return;
+  if (e.key === "Escape") closeModal();
+  if (e.key === "Tab") { // simple focus trap
+    const f = [...m.querySelectorAll("button:not([disabled]),a")]; if (!f.length) return;
+    const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+    else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  }
+});
+
+/* ---------- confetti ---------- */
+const cv = document.getElementById("confetti"), cx = cv.getContext("2d"); let parts = [], raf = null;
+function sizeCv() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+addEventListener("resize", sizeCv); sizeCv();
+function confetti(n) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cols = ["#ff2e93", "#ff8a3d", "#ffd23f", "#19e3d0", "#ffffff", "#8a2be2"];
+  for (let k = 0; k < n; k++) parts.push({ x: Math.random() * cv.width, y: -20 * devicePixelRatio - Math.random() * cv.height * .4, vx: (Math.random() - .5) * 4, vy: 2 + Math.random() * 4, r: (4 + Math.random() * 6) * devicePixelRatio, a: Math.random() * 6, va: (Math.random() - .5) * .3, c: cols[k % cols.length] });
+  if (!raf) raf = requestAnimationFrame(step);
+}
+function step() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  parts = parts.filter(p => p.y < cv.height + 40);
+  parts.forEach(p => { p.x += p.vx; p.y += p.vy * devicePixelRatio; p.vy += .03; p.a += p.va;
+    cx.save(); cx.translate(p.x, p.y); cx.rotate(p.a); cx.fillStyle = p.c; cx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); cx.restore(); });
+  raf = parts.length ? requestAnimationFrame(step) : (cx.clearRect(0, 0, cv.width, cv.height), null);
+}
+
+/* ---------- boot ---------- */
+if (PREVIEW || SIM) {
+  const b = document.getElementById("banner"); b.classList.add("on");
+  b.textContent = "Test mode: " + (PREVIEW ? "all doors unlocked (preview)" : "") + (PREVIEW && SIM ? " · " : "") + (SIM ? "pretending today is " + fmt(SIM, { weekday: "long", month: "long", day: "numeric", year: "numeric" }) : "") + ". Progress is saved separately.";
+}
+tick(); setInterval(tick, 1000);
+
+</script>
+</body>
+</html>
